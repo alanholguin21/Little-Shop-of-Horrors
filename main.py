@@ -29,6 +29,7 @@ class Game:
         self.plant = Plant(300, 300, WORLD_MAP)
         self.monster = JackInBox(500, 500, WORLD_MAP)  # Adjusted for diversity in positioning
         self.key = Key(200, 200)  # Initialize the key object
+        self.door = Door(0, 0)  # Initialize door position
 
     def draw_maze(self):
         # Draw the tiles for the maze
@@ -43,6 +44,8 @@ class Game:
                 elif char == "Y":
                     rect = pygame.Rect(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE)
                     self.screen.blit(self.door_image, rect)
+                    # Update door position
+                    self.door.rect = rect
 
         # Draw the key if it has not been picked up
         if self.key.is_visible:
@@ -84,7 +87,7 @@ class Game:
                 self.key.is_visible = False  # Set key visibility to False if picked up
 
             # Check if the character reaches the door
-            if self.character.rect.collidepoint(*self.get_door_position()):
+            if self.key.is_visible and self.character.rect.colliderect(self.door.rect):
                 print("Congratulations! You escaped!")
                 pygame.quit()
                 sys.exit()
@@ -96,17 +99,6 @@ class Game:
             self.monster.draw(self.screen)  # Draw the monster
             pygame.display.update()  # Update the display
             self.clock.tick(FPS)  # Maintain the specified frames per second
-
-    def get_door_position(self):
-        # Find the position of the door in the map
-        for y, row in enumerate(WORLD_MAP):
-            for x, char in enumerate(row):
-                if char == "Y":
-                    return x * TILESIZE, y * TILESIZE
-
-        # If door position not found, return None
-        return None
-
 
 if __name__ == '__main__':
     game = Game()
