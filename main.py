@@ -65,6 +65,9 @@ class Game:
 
     def run(self):
         caught = False  # Variable to track if the character is caught
+        caught_timer = 0  # Timer for how long the character has been caught
+        scream_duration = 2000  # Duration of the scream sound effect in milliseconds (2 seconds)
+
         # Main game loop
         while True:
             for event in pygame.event.get():
@@ -113,6 +116,11 @@ class Game:
             if caught:
                 pygame.mixer.music.stop()
                 self.character_scream_sound.play()
+                caught_timer += self.clock.get_time()  # Update the caught timer
+                if caught_timer >= scream_duration:
+                    print("Game Over!")
+                    pygame.quit()
+                    sys.exit()
 
             self.camera.update(self.character.rect)
             self.screen.fill((0, 0, 0))  # Clear screen
