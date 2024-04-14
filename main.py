@@ -33,6 +33,16 @@ class Game:
         self.door = Door(700, 500)
         self.camera = Camera(32, 12)
 
+        self.screen.fill((0, 0, 0))  # Clear screen
+        # Display ending image
+        ending_image = pygame.image.load("begin.png").convert_alpha()
+        # Shrink the image to half its original size
+        ending_image = pygame.transform.scale(ending_image, (ending_image.get_width() // 2, ending_image.get_height() // 2))
+        self.screen.blit(ending_image, (0, 0))
+        pygame.display.update()
+        # Wait for a moment before closing the game
+        pygame.time.wait(9000)
+
     def draw_maze(self):
         # Draw the tiles for the maze
         for y, row in enumerate(WORLD_MAP):
@@ -91,7 +101,26 @@ class Game:
 
             # Check if the character reaches the door with the key
             if not self.key.is_visible and self.character.rect.colliderect(self.door.rect):
-                print("Congratulations! You escaped!")
+                self.screen.fill((0, 0, 0))  # Clear screen
+                ending_image = pygame.image.load("ending.png").convert_alpha()
+                ending_image = pygame.transform.scale(ending_image, (ending_image.get_width() // 2, ending_image.get_height() // 2))
+                self.screen.blit(ending_image, (0, 0))
+                pygame.display.update()
+                pygame.time.wait(90000)
+                pygame.quit()
+                sys.exit()
+
+            # Check if the character collides with the monster
+            if pygame.sprite.collide_rect(self.character, self.monster):
+                self.screen.fill((0, 0, 0))  # Clear screen
+                # Display ending image
+                ending_image = pygame.image.load("death.png").convert_alpha()
+                # Shrink the image to half its original size
+                ending_image = pygame.transform.scale(ending_image, (ending_image.get_width() // 2, ending_image.get_height() // 2))
+                self.screen.blit(ending_image, (0, 0))
+                pygame.display.update()
+                # Wait for a moment before closing the game
+                pygame.time.wait(9000)
                 pygame.quit()
                 sys.exit()
 
