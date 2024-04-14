@@ -98,7 +98,7 @@ class Game:
                 ending_image = pygame.transform.scale(ending_image, (ending_image.get_width() // 2, ending_image.get_height() // 2))
                 self.screen.blit(ending_image, (0, 0))
                 pygame.display.update()
-                pygame.time.wait(90000)
+                pygame.time.wait(9000)
                 pygame.quit()
                 sys.exit()
 
