@@ -1,6 +1,6 @@
 # game setup
 
-FPS      = 60
+FPS      =  200
 TILESIZE = 24
 WIDTH    = TILESIZE * 60
 HEIGTH   = TILESIZE * 60

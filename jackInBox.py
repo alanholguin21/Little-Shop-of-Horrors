@@ -53,5 +53,5 @@ class JackInBox:
             return self.world_map[map_y][map_x] != "X"
         return False
 
-    def draw(self, surface):
-        surface.blit(self.image, self.rect)
+    def draw(self, surface, pos):
+        surface.blit(self.image, pos)

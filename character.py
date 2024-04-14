@@ -97,6 +97,6 @@ class Character:
             return True
         return False
 
-    def draw(self, surface):
-        surface.blit(self.image, self.rect)
+    def draw(self, surface, pos):
+        surface.blit(self.image, pos)
         
