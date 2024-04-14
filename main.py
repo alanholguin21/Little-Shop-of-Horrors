@@ -41,7 +41,7 @@ class Game:
         self.screen.blit(ending_image, (0, 0))
         pygame.display.update()
         # Wait for a moment before closing the game
-        pygame.time.wait(9000)
+        pygame.time.wait(14000)
 
     def draw_maze(self):
         # Draw the tiles for the maze
