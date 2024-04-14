@@ -33,6 +33,15 @@ class Game:
         self.door = Door(700, 500)
         self.camera = Camera(32, 12)
 
+        # Load the music file
+        pygame.mixer.music.load("background_music.mp3")
+        # Play the music in an infinite loop (-1)
+        pygame.mixer.music.play(-1)
+
+        # Load the sound effects
+        self.scream_sound = pygame.mixer.Sound("scream.mp3")
+        self.character_scream_sound = pygame.mixer.Sound("scream.mp3")
+
     def draw_maze(self):
         # Draw the tiles for the maze
         for y, row in enumerate(WORLD_MAP):
@@ -55,6 +64,7 @@ class Game:
             self.key.draw(self.screen, self.camera.apply(self.key.rect))
 
     def run(self):
+        caught = False  # Variable to track if the character is caught
         # Main game loop
         while True:
             for event in pygame.event.get():
@@ -94,6 +104,15 @@ class Game:
                 print("Congratulations! You escaped!")
                 pygame.quit()
                 sys.exit()
+
+            # Check if the character is caught by the monster
+            if self.character.rect.colliderect(self.monster.rect):
+                caught = True
+
+            # If caught, play the scream sound effect and stop the background music
+            if caught:
+                pygame.mixer.music.stop()
+                self.character_scream_sound.play()
 
             self.camera.update(self.character.rect)
             self.screen.fill((0, 0, 0))  # Clear screen
