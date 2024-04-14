@@ -15,11 +15,14 @@ class Game:
         pygame.display.set_caption('Little Shop of Horror')
         self.clock = pygame.time.Clock()
 
-        # Load and scale tile image for the maze
+        # Load and scale tile image for the maze and door
         self.tile_image = pygame.image.load("tile.png").convert_alpha()
         self.floor_image = pygame.image.load("floor.png").convert_alpha()
         self.tile_image = pygame.transform.scale(self.tile_image, (TILESIZE, TILESIZE))
         self.floor_image = pygame.transform.scale(self.floor_image, (TILESIZE, TILESIZE))
+
+        self.door_image = pygame.image.load("door.png").convert_alpha()
+        self.door_image = pygame.transform.scale(self.door_image, (TILESIZE, TILESIZE))
 
         # Initialize game entities
         self.character = Character(50, 50, WORLD_MAP)
@@ -39,11 +42,11 @@ class Game:
                     rect = pygame.Rect(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE)
                     self.screen.blit(self.floor_image, rect)
                 elif char == "Y":
-                    self.door.draw(self.screen)
+                    rect = pygame.Rect(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE)
+                    self.screen.blit(self.door_image, rect)
         # Draw the key if it has not been picked up
         if self.key.is_visible:
             self.key.draw(self.screen)
-        self.door.draw(self.screen)
 
     def run(self):
         # Main game loop
@@ -98,4 +101,3 @@ class Game:
 if __name__ == '__main__':
     game = Game()
     game.run()
-
