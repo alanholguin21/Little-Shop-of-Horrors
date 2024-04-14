@@ -57,6 +57,7 @@ class Game:
             self.key.draw(self.screen, self.camera.apply(self.key.rect))
 
     def run(self):
+        caught = False  # Variable to track if the character is caught
         # Main game loop
         while True:
             for event in pygame.event.get():
@@ -115,8 +116,6 @@ class Game:
                 pygame.time.wait(9000)
                 pygame.quit()
                 sys.exit()
-
-            # Display ending image
 
             self.camera.update(self.character.rect)
             self.screen.fill((0, 0, 0))  # Clear screen
