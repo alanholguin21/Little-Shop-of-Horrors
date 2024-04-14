@@ -86,8 +86,8 @@ class Game:
             if self.character.pick_up_key(self.key.rect):
                 self.key.is_visible = False  # Set key visibility to False if picked up
 
-            # Check if the character reaches the door
-            if self.key.is_visible and self.character.rect.colliderect(self.door.rect):
+            # Check if the character reaches the door with the key
+            if not self.key.is_visible and self.character.rect.colliderect(self.door.rect):
                 print("Congratulations! You escaped!")
                 pygame.quit()
                 sys.exit()
