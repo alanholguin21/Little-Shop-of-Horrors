@@ -33,6 +33,12 @@ class Game:
         self.door = Door(700, 500)
         self.camera = Camera(32, 12)
 
+        pygame.mixer.music.load("background_music.mp3")
+        pygame.mixer.music.play(-1)
+        
+        self.scream_sound = pygame.mixer.Sound("scream.mp3")
+        self.character_scream_sound = pygame.mixer.Sound("scream.mp3")
+        
 
     def draw_maze(self):
         
@@ -58,6 +64,7 @@ class Game:
 
     def run(self):
         caught = False  # Variable to track if the character is caught
+        
         # Main game loop
         while True:
             for event in pygame.event.get():
@@ -105,6 +112,8 @@ class Game:
 
             # Check if the character collides with the monster
             if pygame.sprite.collide_rect(self.character, self.monster):
+                pygame.mixer.music.stop()
+                self.character_scream_sound.play()
                 self.screen.fill((0, 0, 0))  # Clear screen
                 # Display ending image
                 ending_image = pygame.image.load("death.png").convert_alpha()
