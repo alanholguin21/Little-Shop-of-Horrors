@@ -1,22 +1,18 @@
 import pygame
 class Camera:
-    def __init__(self, width, height):
-        self.camera = pygame.Rect(0, 0, width, height)
-        self.width = width
-        self.height = height
+    def __init__(self, camera_width, camera_height):
+        self.camera_rect = pygame.Rect(0, 0, camera_width, camera_height)
+        self.width = camera_width
+        self.height = camera_height
 
     def apply(self, rect):
-        # Now directly takes a pygame.Rect and adjusts it based on the camera's position
-        return rect.move(-self.camera.x, -self.camera.y)
+        # This method shifts the rect based on the camera's position
+        return rect.move(self.camera_rect.topleft)
 
-    def update(self, target):
-        x = -target.rect.centerx + int(self.width / 2)
-        y = -target.rect.centery + int(self.height / 2)
+    def update(self, target_rect):
+        # This method centers the target in the middle of the camera view
+        x = -target_rect.centerx + self.width // 2 + 370
+        y = -target_rect.centery + self.height // 2 + 300
 
-        # Limit scrolling to map size
-        x = min(0, x)  # Left
-        x = max(-(self.camera.width - self.width), x)  # Right
-        y = min(0, y)  # Top
-        y = max(-(self.camera.height - self.height), y)  # Bottom
-
-        self.camera = pygame.Rect(x, y, self.camera.width, self.camera.height)
+        # Update the camera's position
+        self.camera_rect = pygame.Rect(x, y, self.width, self.height)

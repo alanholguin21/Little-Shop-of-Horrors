@@ -9,6 +9,6 @@ class Door:
     def open(self):
         self.is_open = True
 
-    def draw(self, surface):
+    def draw(self, surface, pos):
         if not self.is_open:
-            surface.blit(self.image, self.rect)
+            surface.blit(self.image, pos)

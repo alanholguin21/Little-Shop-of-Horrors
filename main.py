@@ -6,6 +6,7 @@ from plant import Plant
 from jackInBox import JackInBox
 from door import Door
 from key import Key
+from camera import Camera
 
 class Game:
     def __init__(self):
@@ -29,7 +30,8 @@ class Game:
         self.plant = Plant(300, 300, WORLD_MAP)
         self.monster = JackInBox(500, 500, WORLD_MAP)  # Adjusted for diversity in positioning
         self.key = Key(200, 200)  # Initialize the key object
-        self.door = Door(0, 0)  # Initialize door position
+        self.door = Door(700, 500)
+        self.camera = Camera(32, 12)
 
     def draw_maze(self):
         # Draw the tiles for the maze
@@ -37,19 +39,20 @@ class Game:
             for x, char in enumerate(row):
                 if char == "X":
                     rect = pygame.Rect(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE)
-                    self.screen.blit(self.tile_image, rect)
+                    self.screen.blit(self.tile_image, self.camera.apply(rect))
                 elif char == " ":
                     rect = pygame.Rect(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE)
-                    self.screen.blit(self.floor_image, rect)
+                    self.screen.blit(self.floor_image, self.camera.apply(rect))
                 elif char == "Y":
+                    # Draw the door at the position of "Y"
                     rect = pygame.Rect(x * TILESIZE, y * TILESIZE, TILESIZE, TILESIZE)
-                    self.screen.blit(self.door_image, rect)
+                    self.screen.blit(self.door_image, self.camera.apply(rect))
                     # Update door position
                     self.door.rect = rect
 
         # Draw the key if it has not been picked up
         if self.key.is_visible:
-            self.key.draw(self.screen)
+            self.key.draw(self.screen, self.camera.apply(self.key.rect))
 
     def run(self):
         # Main game loop
@@ -92,11 +95,12 @@ class Game:
                 pygame.quit()
                 sys.exit()
 
+            self.camera.update(self.character.rect)
             self.screen.fill((0, 0, 0))  # Clear screen
             self.draw_maze()  # Draw maze background
-            self.character.draw(self.screen)  # Draw the character
-            self.plant.draw(self.screen)  # Draw the plant
-            self.monster.draw(self.screen)  # Draw the monster
+            self.character.draw(self.screen,  self.camera.apply(self.character.rect))  # Draw the character
+            self.plant.draw(self.screen,  self.camera.apply(self.plant.rect))  # Draw the plant
+            self.monster.draw(self.screen,  self.camera.apply(self.monster.rect))  # Draw the monster
             pygame.display.update()  # Update the display
             self.clock.tick(FPS)  # Maintain the specified frames per second
 
