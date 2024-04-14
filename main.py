@@ -38,11 +38,8 @@ class Game:
         
         self.scream_sound = pygame.mixer.Sound("scream.mp3")
         self.character_scream_sound = pygame.mixer.Sound("scream.mp3")
-        
 
     def draw_maze(self):
-        
-    
         for y, row in enumerate(WORLD_MAP):
             for x, char in enumerate(row):
                 if char == "X":
@@ -63,6 +60,15 @@ class Game:
             self.key.draw(self.screen, self.camera.apply(self.key.rect))
 
     def run(self):
+        # Display introductory image
+        self.screen.fill((0, 0, 0))  # Clear screen
+        intro_image = pygame.image.load("begin.png").convert_alpha()
+        # Resize the intro image to fit the screen
+        intro_image = pygame.transform.scale(intro_image, (800, 600))
+        self.screen.blit(intro_image, (0, 0))
+        pygame.display.update()
+        pygame.time.wait(5000)  # Display the intro image for 5 seconds
+
         caught = False  # Variable to track if the character is caught
         
         # Main game loop
@@ -103,7 +109,8 @@ class Game:
             if not self.key.is_visible and self.character.rect.colliderect(self.door.rect):
                 self.screen.fill((0, 0, 0))  # Clear screen
                 ending_image = pygame.image.load("ending.png").convert_alpha()
-                ending_image = pygame.transform.scale(ending_image, (ending_image.get_width() // 2, ending_image.get_height() // 2))
+                # Resize the ending image to fit the screen
+                ending_image = pygame.transform.scale(ending_image, (800, 600))
                 self.screen.blit(ending_image, (0, 0))
                 pygame.display.update()
                 pygame.time.wait(9000)
@@ -117,8 +124,8 @@ class Game:
                 self.screen.fill((0, 0, 0))  # Clear screen
                 # Display ending image
                 ending_image = pygame.image.load("death.png").convert_alpha()
-                # Shrink the image to half its original size
-                ending_image = pygame.transform.scale(ending_image, (ending_image.get_width() // 2, ending_image.get_height() // 2))
+                # Resize the ending image to fit the screen
+                ending_image = pygame.transform.scale(ending_image, (800, 600))
                 self.screen.blit(ending_image, (0, 0))
                 pygame.display.update()
                 # Wait for a moment before closing the game
