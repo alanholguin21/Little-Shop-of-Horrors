@@ -107,6 +107,7 @@ class Game:
 
             # Check if the character reaches the door with the key
             if not self.key.is_visible and self.character.rect.colliderect(self.door.rect):
+                pygame.mixer.music.stop()
                 self.screen.fill((0, 0, 0))  # Clear screen
                 ending_image = pygame.image.load("ending.png").convert_alpha()
                 # Resize the ending image to fit the screen
